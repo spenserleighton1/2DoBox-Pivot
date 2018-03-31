@@ -1,0 +1,62 @@
+
+
+
+
+ul {
+	width: 30%;
+}
+
+h2 {
+	color: #6d6e71;
+}
+
+p {
+	color: #939598;
+}
+
+h4 {
+	color: #6d6e71;
+	display: inline-block;
+}
+
+hr {
+	color: #d1d3d4;
+}
+
+
+
+
+.delete-button {
+	background: url('images/delete.svg');
+	height: 2rem;
+	width: 2rem;
+	float: right;
+}
+
+.delete-button:hover {
+	background-image: url('images/delete-hover.svg');
+}
+
+.upvote-button {
+	background-image: url('images/upvote.svg');
+	height: 2rem;
+	width: 2rem;
+
+}
+
+.upvote-button:hover {
+	background-image: url('images/upvote-hover.svg');
+
+}
+
+.downvote-button {
+	background-image: url('images/downvote.svg');
+	height: 2rem;
+	width: 2rem;
+
+}
+
+.downvote-button:hover {
+	background-image: url('images/downvote-hover.svg');
+
+}
