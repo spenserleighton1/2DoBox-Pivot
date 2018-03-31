@@ -86,7 +86,7 @@ p {
 	color: #939598;
 }
 
-h4 {
+h4, h5 {
 	color: #6d6e71;
 	display: inline-block;
 }
