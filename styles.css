@@ -24,14 +24,15 @@ form {
   margin: 0;
 }
 
-article {
-  width: 55%;
-  margin: 0 auto;
-}
 
 button {
   border: 0;
   }
+
+section {
+  margin: 0 auto;
+  width: 55%;
+}
 
 .body,
 .idea-title,
