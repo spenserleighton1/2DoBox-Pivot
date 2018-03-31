@@ -1,6 +1,65 @@
 
+header {
+  font-family: Roboto Slab, serif;
+  background-color: #E5F3F2;
+}
 
+body {
+  margin: 0; 
+}
 
+h1 {
+  margin: 0% 0 0 0;
+  padding: 2% 0 3% 0;
+  color: #00A79D;
+}
+
+span {
+  color: #6D6E71;
+}
+
+form {
+  text-align: center;
+  width: 100%;
+  margin: 0;
+}
+
+.body,
+.idea-title,
+.search {
+  width: 55%;
+  height: 21px;
+}
+
+.idea-title {
+
+}
+
+.body {
+  margin-top: 1%;
+}
+
+.save {
+  background-color: #00A79D;
+  padding: 1% 0;
+  margin: 2% 0 3% 0;
+  color: white;
+  width: 56%;
+}
+
+.save:hover {
+  background-color: #045E55;
+}
+
+.search {
+  margin: 2% auto;
+}
+
+@media only screen and (max-width:600px) {
+  .body{
+    padding-bottom: 8%;
+  }
+}
 
 ul {
 	width: 30%;
@@ -22,9 +81,6 @@ h4 {
 hr {
 	color: #d1d3d4;
 }
-
-
-
 
 .delete-button {
 	background: url('images/delete.svg');
@@ -58,5 +114,4 @@ hr {
 
 .downvote-button:hover {
 	background-image: url('images/downvote-hover.svg');
-
 }
