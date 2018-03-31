@@ -24,11 +24,24 @@ form {
   margin: 0;
 }
 
+
+button {
+  border: 0;
+  }
+
+section {
+  margin: 0 auto;
+  width: 55%;
+}
+
 .body,
 .idea-title,
 .search {
   width: 55%;
   height: 21px;
+  color: #939598;
+  font-weight: 700;
+  opacity: .6;
 }
 
 .idea-title {
@@ -62,7 +75,7 @@ form {
 }
 
 ul {
-	width: 30%;
+  text-align: center;
 }
 
 h2 {
@@ -84,8 +97,8 @@ hr {
 
 .delete-button {
 	background: url('images/delete.svg');
-	height: 2rem;
-	width: 2rem;
+	height: 1.5rem;
+	width: 1.5rem;
 	float: right;
 }
 
@@ -95,8 +108,9 @@ hr {
 
 .upvote-button {
 	background-image: url('images/upvote.svg');
-	height: 2rem;
-	width: 2rem;
+	height: 1.5rem;
+	width: 1.5rem;
+  margin-right: 1rem;
 
 }
 
@@ -107,8 +121,9 @@ hr {
 
 .downvote-button {
 	background-image: url('images/downvote.svg');
-	height: 2rem;
-	width: 2rem;
+	height: 1.5rem;
+	width: 1.5rem;
+  margin-right: 1rem;
 
 }
 
