@@ -11,24 +11,28 @@ function addItemToList(event) {
   var $body = $bodyInput.val();
 	event.preventDefault();
 
-		$('section').prepend (
+		var markUp =
       `<article>
 		  <button class = 'delete-button'></button>
       <h2>${$title}</h2>
- 		   <p>${$body}</p>
+ 		   <p contenteditable="true">${$body}</p>
  		   <button class = 'upvote-button'></button>
  		   <button class = 'downvote-button'></button>
  		   <h4>quality:<span class='quality'>swill</span></h4>
        </article>
-		`)
-    $('article').on('click', '.delete-button', deleteButtonClicked);
+		`;
+    var $currentArticle = $(markUp);
+    $('section').prepend($currentArticle);
     clearInputs();
-		$('article').on('click', '.upvote-button', upVoteClicked);
-		$('article').on('click', '.downvote-button', downVoteClicked);
+    $currentArticle.on('click', '.delete-button', deleteButtonClicked);
+		$currentArticle.on('click', '.upvote-button', upVoteClicked);
+		$currentArticle.on('click', '.downvote-button', downVoteClicked);
 }
-function upVoteClicked() {
-	var $upvoteButton = $('.upvote-button')
-	var $quality = $('.quality');
+
+function upVoteClicked(event) {
+	var $upvoteButton = $(event.target);
+  var $currentArticle = $upvoteButton.parent();
+	var $quality = $currentArticle.children('h4').children('.quality');
  	if ($quality.text() ==='swill') {
  		$quality.text('plausible');
  	} else if ($quality.text() === 'plausible') {
@@ -38,14 +42,10 @@ function upVoteClicked() {
  	} 
  }
 
-
-
- 
-
-function downVoteClicked(){
-	var $downvoteButton = $('.downvote-button')
-	var $quality = $('.quality')
-
+function downVoteClicked(event){
+	var $downvoteButton = $(event.target);
+  var $currentArticle = $downvoteButton.parent();
+  var $quality = $currentArticle.children('h4').children('.quality');
  	if ($quality.text() === 'genius') {
  		$quality.text('plausible');
  	} else if ($quality.text() === 'plausible') {
@@ -53,7 +53,6 @@ function downVoteClicked(){
  	} else {
  		return
  	} 
-
 }
 
 function deleteButtonClicked (event) {
