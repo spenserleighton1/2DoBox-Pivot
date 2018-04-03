@@ -1,18 +1,30 @@
 var $titleInput = $('.idea-title');
 var $bodyInput = $('.body');
 var $saveButton = $('.save');
+var idKeys = [];
 
 
 $saveButton.on('click', addItemToList);
+$(document).ready(function() {
+  //need to get all keys out of local storage.
+  idKeys.forEach(function(key) {
+    idKeys.push(key);
+  })
 
+});
+//idea must be removed from local storage when deleted.
+//deleted idea should not appear on next page load.
+//Get all keys out of local storage.
 function addItemToList(event) {
+  var idGen = Date.now();
+  console.log(idGen);
   var $deleteButton = $('.delete-button');
   var $title = $titleInput.val();
   var $body = $bodyInput.val();
 	event.preventDefault();
 
 		var markUp =
-      `<article>
+      `<article id=${idGen}>
 		  <button class = 'delete-button'></button>
       <h2>${$title}</h2>
  		   <p contenteditable="true">${$body}</p>
@@ -27,6 +39,7 @@ function addItemToList(event) {
     $currentArticle.on('click', '.delete-button', deleteButtonClicked);
 		$currentArticle.on('click', '.upvote-button', upVoteClicked);
 		$currentArticle.on('click', '.downvote-button', downVoteClicked);
+    localStorage.setItem(idGen, markUp);
 }
 
 function upVoteClicked(event) {
@@ -64,4 +77,14 @@ function clearInputs() {
   $titleInput.val('');
   $bodyInput.val('');
 }
+
+// function Generator() {};
+
+// Generator.prototype.rand =  Math.floor(Math.random() * 26) + Date.now();
+
+// Generator.prototype.getId = function() {
+// return this.rand++;
+// };
+// var idGen = new Generator();
+
 
