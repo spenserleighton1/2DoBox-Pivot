@@ -1,13 +1,12 @@
 var $titleInput = $('.idea-title');
 var $bodyInput = $('.body');
 var $saveButton = $('.save');
-var idKeys = [];
-
 
 $saveButton.on('click', addItemToList);
+$('section').on('click', '.delete-button', deleteButtonClicked);
+$('section').on('click', '.upvote-button', upVoteClicked);
+$('section').on('click', '.downvote-button', downVoteClicked);
 
-//idea must be removed from local storage when deleted.
-//deleted idea should not appear on next page load.
 //save editable fields.
 //add aria label to inputs.
 //Need to do DTR.
@@ -32,26 +31,23 @@ function addItemToList(event) {
     var $currentArticle = $(markUp);
     $('section').prepend($currentArticle);
     clearInputs();
-    $currentArticle.on('click', '.delete-button', deleteButtonClicked);
-		$currentArticle.on('click', '.upvote-button', upVoteClicked);
-		$currentArticle.on('click', '.downvote-button', downVoteClicked);
-		idKeys.push(idGen);
-    localStorage.setItem("idKeys", JSON.stringify(idKeys));
+    // $currentArticle.on('click', '.delete-button', deleteButtonClicked);
+		// $currentArticle.on('click', '.upvote-button', upVoteClicked);
+		// $currentArticle.on('click', '.downvote-button', downVoteClicked);
     localStorage.setItem(idGen, markUp);
 }
 
-function persistIdeas() {
-  var ideas = JSON.parse(localStorage.getItem("idKeys"))
-  ideas.forEach(function(key, index) {
-    idKeys.push(ideas[index]);
-  $('section').append(localStorage.getItem(ideas[index]))
-  })
-}
+$( document ).ready(function(event) {
+  for(var i =0; i < localStorage.length; i++){
+  $('section').append(localStorage.getItem(localStorage.key(i)));
+  }  
+})
 
-$( document ).ready(function() {
-	persistIdeas();
-    
-  })
+function saveUserEdits() {
+  var getIdea = localStorage.getItem(JSON.parse(key(0)));
+  return getIdea;
+
+}
 
 
 function upVoteClicked(event) {
@@ -80,8 +76,9 @@ function downVoteClicked(event){
  	} 
 }
 
-function deleteButtonClicked (event) {
+function deleteButtonClicked (event, idGen) {
 	$(this).parent().remove();
+  localStorage.removeItem(localStorage.key(idGen));
 }
 
 function clearInputs() {
