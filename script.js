@@ -5,9 +5,12 @@ var idKeys = [];
 
 
 $saveButton.on('click', addItemToList);
+
 //idea must be removed from local storage when deleted.
 //deleted idea should not appear on next page load.
-//Get all keys out of local storage.
+//save editable fields.
+//add aria label to inputs.
+//Need to do DTR.
 function addItemToList(event) {
   var idGen = Date.now();
   // console.log(idGen);
@@ -33,22 +36,22 @@ function addItemToList(event) {
 		$currentArticle.on('click', '.upvote-button', upVoteClicked);
 		$currentArticle.on('click', '.downvote-button', downVoteClicked);
 		idKeys.push(idGen);
+    localStorage.setItem("idKeys", JSON.stringify(idKeys));
     localStorage.setItem(idGen, markUp);
 }
 
+function persistIdeas() {
+  var ideas = JSON.parse(localStorage.getItem("idKeys"))
+  ideas.forEach(function(key, index) {
+    idKeys.push(ideas[index]);
+  $('section').append(localStorage.getItem(ideas[index]))
+  })
+}
 
 $( document ).ready(function() {
-	idKeys.push(localStorage.getItem(All))
-  //need to get all keys out of local storage.
-  
-  // idKeys.forEach(function(key) {
-  	var idIndex = localStorage.getItem(idKeys[0]);
-  	console.log(idIndex);
-    
+	persistIdeas();
     
   })
-
-
 
 
 function upVoteClicked(event) {
@@ -87,13 +90,5 @@ function clearInputs() {
   $bodyInput.val('');
 }
 
-// function Generator() {};
-
-// Generator.prototype.rand =  Math.floor(Math.random() * 26) + Date.now();
-
-// Generator.prototype.getId = function() {
-// return this.rand++;
-// };
-// var idGen = new Generator();
 
 
