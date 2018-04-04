@@ -5,20 +5,14 @@ var idKeys = [];
 
 
 $saveButton.on('click', addItemToList);
-$( document ).ready(function() {
-  //need to get all keys out of local storage.
-  idKeys.forEach(function(key, index) {
-    var idIndex = localStorage.getItem(key);
-    console.log(idIndex);
-    idKeys.push(key);
-  })
-});
+
+//need to get all keys out of local storage.
 //idea must be removed from local storage when deleted.
 //deleted idea should not appear on next page load.
 //Get all keys out of local storage.
 function addItemToList(event) {
   var idGen = Date.now();
-  console.log(idGen);
+  // console.log(idGen);
   var $deleteButton = $('.delete-button');
   var $title = $titleInput.val();
   var $body = $bodyInput.val();
@@ -27,7 +21,7 @@ function addItemToList(event) {
 		var markUp =
       `<article id=${idGen}>
 		  <button class = 'delete-button'></button>
-      <h2>${$title}</h2>
+      <h2 contenteditable="true">${$title}</h2>
  		   <p contenteditable="true">${$body}</p>
  		   <button class = 'upvote-button'></button>
  		   <button class = 'downvote-button'></button>
@@ -40,8 +34,24 @@ function addItemToList(event) {
     $currentArticle.on('click', '.delete-button', deleteButtonClicked);
 		$currentArticle.on('click', '.upvote-button', upVoteClicked);
 		$currentArticle.on('click', '.downvote-button', downVoteClicked);
+		idKeys.push(idGen);
     localStorage.setItem(idGen, markUp);
 }
+
+
+$( document ).ready(function() {
+	idKeys.push(localStorage.getItem(All))
+  //need to get all keys out of local storage.
+  
+  // idKeys.forEach(function(key) {
+  	var idIndex = localStorage.getItem(idKeys[0]);
+  	console.log(idIndex);
+    
+    
+  })
+
+
+
 
 function upVoteClicked(event) {
 	var $upvoteButton = $(event.target);
