@@ -5,12 +5,13 @@ var idKeys = [];
 
 
 $saveButton.on('click', addItemToList);
-$(document).ready(function() {
+$( document ).ready(function() {
   //need to get all keys out of local storage.
-  idKeys.forEach(function(key) {
+  idKeys.forEach(function(key, index) {
+    var idIndex = localStorage.getItem(key);
+    console.log(idIndex);
     idKeys.push(key);
   })
-
 });
 //idea must be removed from local storage when deleted.
 //deleted idea should not appear on next page load.
@@ -77,6 +78,7 @@ function clearInputs() {
   $titleInput.val('');
   $bodyInput.val('');
 }
+
 
 // function Generator() {};
 
