@@ -1,51 +1,65 @@
-
-header {
-  font-family: Roboto Slab, serif;
-  background-color: #E5F3F2;
-}
-
 body {
+  font-family: Roboto Slab, serif;
   margin: 0; 
 }
 
+form {
+  margin: 0;
+  text-align: center;
+  width: 100%;
+}
+
+header {
+  background-color: #E5F3F2;
+}
+
 h1 {
-  margin: 0% 0 0 0;
-  padding: 2% 0 3% 0;
   color: #00A79D;
+  margin: 0;
+  padding: 2% 0 3% 0;
 }
 
 span {
   color: #6D6E71;
 }
 
-form {
-  text-align: center;
-  width: 100%;
-  margin: 0;
-}
-
-
 button {
   border: 0;
-  }
+}
 
 section {
   margin: 0 auto;
   width: 55%;
 }
 
-.body,
-.idea-title,
-.search {
-  width: 55%;
-  height: 21px;
-  color: #939598;
-  font-weight: 700;
-  opacity: .6;
+h2 {
+  color: #6d6e71;
 }
 
-.idea-title {
+p {
+  color: #939598;
+}
 
+h4, h5 {
+  color: #6d6e71;
+  display: inline-block;
+}
+
+hr {
+  color: #d1d3d4;
+  font-weight: 200;
+  opacity: .5;
+  width: 100%;
+}
+
+.idea-title,
+.body,
+.search {
+  color: #939598;
+  font-weight: 700;
+  height: 21px;
+  opacity: .6;
+  width: 55%;
 }
 
 .body {
@@ -54,9 +68,9 @@ section {
 
 .save {
   background-color: #00A79D;
-  padding: 1% 0;
-  margin: 2% 0 3% 0;
   color: white;
+  margin: 2% 0 3% 0;
+  padding: 1% 0;
   width: 56%;
 }
 
@@ -68,38 +82,11 @@ section {
   margin: 2% auto;
 }
 
-@media only screen and (max-width:600px) {
-  .body{
-    padding-bottom: 8%;
-  }
-}
-
-ul {
-  text-align: center;
-}
-
-h2 {
-	color: #6d6e71;
-}
-
-p {
-	color: #939598;
-}
-
-h4, h5 {
-	color: #6d6e71;
-	display: inline-block;
-}
-
-hr {
-	color: #d1d3d4;
-}
-
 .delete-button {
 	background: url('images/delete.svg');
+  float: right;
 	height: 1.5rem;
 	width: 1.5rem;
-	float: right;
 }
 
 .delete-button:hover {
@@ -107,26 +94,29 @@ hr {
 }
 
 .upvote-button {
-	background-image: url('images/upvote.svg');
-	height: 1.5rem;
-	width: 1.5rem;
+  background-image: url('images/upvote.svg');
+  height: 1.5rem;
   margin-right: 1rem;
-
+  width: 1.5rem;
 }
 
 .upvote-button:hover {
 	background-image: url('images/upvote-hover.svg');
-
 }
 
 .downvote-button {
-	background-image: url('images/downvote.svg');
-	height: 1.5rem;
-	width: 1.5rem;
+  background-image: url('images/downvote.svg');
+  height: 1.5rem;
   margin-right: 1rem;
-
+  width: 1.5rem;
 }
 
 .downvote-button:hover {
 	background-image: url('images/downvote-hover.svg');
+}
+
+@media only screen and (max-width:600px) {
+  .body{
+    padding-bottom: 8%;
+  }
 }
