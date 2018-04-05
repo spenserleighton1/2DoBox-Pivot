@@ -37,7 +37,6 @@ $( document ).ready(function(event) {
   $('section').append(localStorage.getItem(localStorage.key(i)));
   }  
 
-
 $('h2').on('click',function(event) {
   var key1 = localStorage.getItem(localStorage.key($(this).parent().attr('id')));
   console.log(key1);
@@ -86,6 +85,11 @@ function updateBody(key) {
   var markUp = buildMarkup(key, title, body);
   localStorage.setItem(key, markUp);
   })
+}
+
+function saveUserEdits() {
+  var getIdea = localStorage.getItem(JSON.parse(key(0)));
+  return getIdea;
 }
 
 function upVoteClicked(event) {
