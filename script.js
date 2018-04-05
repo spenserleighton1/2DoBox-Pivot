@@ -37,7 +37,6 @@ $( document ).ready(function(event) {
   $('section').append(localStorage.getItem(localStorage.key(i)));
   }  
 
-
 $('h2').on('click',function(event) {
   var key1 = localStorage.getItem(localStorage.key($(this).parent().attr('id')));
   console.log(key1);
@@ -75,8 +74,8 @@ $('p').on('click', function(event) {
     updateBody(key);
   } else {
     return
-}
-});
+  }
+  });
 })
 
 function updateBody(key) {
