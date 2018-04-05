@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <title>ideabox</title>
     <link rel="stylesheet" type="text/css" href="styles.css">
@@ -12,18 +12,16 @@
       <form>
         <header>
           <h1>idea<span>Box</span></h1>
-        <input type="text" name="title" placeholder="Title" class="idea-title">
-      <div>
-        <input type="text" name="body" placeholder="Body" class="body">
-      </div>
-        <button name="save" class="save">Save</button>
-    </header>
-      <input type="text" name="search" class="search" placeholder="Search">
+          <input type="text" placeholder="Title" class="idea-title" aria-label="title">
+          <div>
+            <input type="text" placeholder="Body" class="body" aria-label="body">
+          </div>
+          <button name="save" class="save" aria-label="save">Save</button>
+        </header>
+      <input type="text" name="search" class="search" placeholder="Search" aria-label="search">
     </form>
-    <!-- template literal -->
     <section>
     </section>
-      <script type="text/javascript" src="script.js"></script>
-    </body>
-  </html>
-
+    <script type="text/javascript" src="script.js"></script>
+  </body>
+</html>
