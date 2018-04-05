@@ -1,58 +1,92 @@
 var $titleInput = $('.idea-title');
 var $bodyInput = $('.body');
 var $saveButton = $('.save');
-var idKeys = [];
-
 
 $saveButton.on('click', addItemToList);
+$('section').on('click', '.delete-button', deleteButtonClicked);
+$('section').on('click', '.upvote-button', upVoteClicked);
+$('section').on('click', '.downvote-button', downVoteClicked);
 
-//idea must be removed from local storage when deleted.
-//deleted idea should not appear on next page load.
-//save editable fields.
-//add aria label to inputs.
-//Need to do DTR.
+function buildMarkup(idGen, title, body) {
+     return `<article id=${idGen}>
+      <button class = 'delete-button'></button>
+      <h2>${title}</h2>
+       <p>${body}</p>
+       <button class = 'upvote-button' aria-label='upvote'></button>
+       <button class = 'downvote-button' aria-label = 'downvote' ></button>
+       <h4>quality:<span class='quality' role='quality'>swill</span></h4>
+       <hr>
+       </article>`
+};
+
 function addItemToList(event) {
   var idGen = Date.now();
-  // console.log(idGen);
   var $deleteButton = $('.delete-button');
   var $title = $titleInput.val();
   var $body = $bodyInput.val();
 	event.preventDefault();
+	var markUp = buildMarkup(idGen, $title, $body)
+  var $currentArticle = $(markUp);
+  $('section').prepend($currentArticle);
+  clearInputs();
+  localStorage.setItem(idGen, markUp);
+};
 
-		var markUp =
-      `<article id=${idGen}>
-		  <button class = 'delete-button'></button>
-      <h2 contenteditable="true">${$title}</h2>
- 		   <p contenteditable="true">${$body}</p>
- 		   <button class = 'upvote-button'></button>
- 		   <button class = 'downvote-button'></button>
- 		   <h4>quality:<span class='quality'>swill</span></h4>
-       </article>
-		`;
-    var $currentArticle = $(markUp);
-    $('section').prepend($currentArticle);
-    clearInputs();
-    $currentArticle.on('click', '.delete-button', deleteButtonClicked);
-		$currentArticle.on('click', '.upvote-button', upVoteClicked);
-		$currentArticle.on('click', '.downvote-button', downVoteClicked);
-		idKeys.push(idGen);
-    localStorage.setItem("idKeys", JSON.stringify(idKeys));
-    localStorage.setItem(idGen, markUp);
+$( document ).ready(function(event) {
+  for(var i = 0; i < localStorage.length; i++){
+  $('section').append(localStorage.getItem(localStorage.key(i)));
+  }  
+
+
+$('h2').on('click',function(event) {
+  var key1 = localStorage.getItem(localStorage.key($(this).parent().attr('id')));
+  console.log(key1);
+  var newText = $(this).text();
+  var addInput = `<input type="text" value=${newText} class="changeTitle">`;
+  if ($(this).children().length === 0) {
+    $(this).text('');
+    $(this).append(addInput);
+    $(this).children().focus();
+    var key = $(this).parent().attr('id');
+    updateTitle(key);
+  } else {
+    return
+  }
+
+});
+
+function updateTitle(key) {
+  $('.changeTitle').on('blur',function(event) {
+  var title = $(this).val();
+  var body = $(this).parent().siblings('p');
+  var markUp = buildMarkup(key, title, body);
+  localStorage.setItem(key, markUp);
+  });
 }
 
-function persistIdeas() {
-  var ideas = JSON.parse(localStorage.getItem("idKeys"))
-  ideas.forEach(function(key, index) {
-    idKeys.push(ideas[index]);
-  $('section').append(localStorage.getItem(ideas[index]))
+$('p').on('click', function(event) {
+  var newText = $(this).text();
+  var addInput = `<input type="text" value=${newText} class="changeContent">`;
+   if ($(this).children().length === 0) {
+    $(this).text('');
+    $(this).append(addInput);
+    $(this).children().focus();
+    var key = $(this).parent().attr('id');
+    updateBody(key);
+  } else {
+    return
+}
+});
+})
+
+function updateBody(key) {
+  $('.changeContent').on('blur', function(event) {
+  var body = $(this).val();
+  var title = $(this).parent().siblings('h2').text();
+  var markUp = buildMarkup(key, title, body);
+  localStorage.setItem(key, markUp);
   })
 }
-
-$( document ).ready(function() {
-	persistIdeas();
-    
-  })
-
 
 function upVoteClicked(event) {
 	var $upvoteButton = $(event.target);
@@ -80,8 +114,9 @@ function downVoteClicked(event){
  	} 
 }
 
-function deleteButtonClicked (event) {
+function deleteButtonClicked (event, idGen) {
 	$(this).parent().remove();
+  localStorage.removeItem(localStorage.key(idGen));
 }
 
 function clearInputs() {
@@ -89,6 +124,3 @@ function clearInputs() {
   $titleInput.val('');
   $bodyInput.val('');
 }
-
-
-
