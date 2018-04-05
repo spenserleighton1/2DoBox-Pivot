@@ -83,10 +83,10 @@ hr {
 }
 
 .delete-button {
-  background: url('images/delete.svg');
+	background: url('images/delete.svg');
   float: right;
-  height: 1.5rem;
-  width: 1.5rem;
+	height: 1.5rem;
+	width: 1.5rem;
 }
 
 .delete-button:hover {
@@ -101,7 +101,7 @@ hr {
 }
 
 .upvote-button:hover {
-  background-image: url('images/upvote-hover.svg');
+	background-image: url('images/upvote-hover.svg');
 }
 
 .downvote-button {

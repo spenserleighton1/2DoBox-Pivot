@@ -74,23 +74,18 @@ $('p').on('click', function(event) {
     updateBody(key);
   } else {
     return
-}
-});
-})
+  }
+  });
 
 function updateBody(key) {
   $('.changeContent').on('blur', function(event) {
   var body = $(this).val();
-  var title = $(this).parent().siblings('h2').text();
+  var title = $(this).parent().siblings('h2');
   var markUp = buildMarkup(key, title, body);
   localStorage.setItem(key, markUp);
   })
 }
-
-function saveUserEdits() {
-  var getIdea = localStorage.getItem(JSON.parse(key(0)));
-  return getIdea;
-}
+});
 
 function upVoteClicked(event) {
 	var $upvoteButton = $(event.target);
