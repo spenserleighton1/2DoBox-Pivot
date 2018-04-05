@@ -90,7 +90,7 @@ hr {
 }
 
 .delete-button:hover {
-	background-image: url('images/delete-hover.svg');
+  background-image: url('images/delete-hover.svg');
 }
 
 .upvote-button {
@@ -112,7 +112,7 @@ hr {
 }
 
 .downvote-button:hover {
-	background-image: url('images/downvote-hover.svg');
+  background-image: url('images/downvote-hover.svg');
 }
 
 @media only screen and (max-width:600px) {

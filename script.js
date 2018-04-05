@@ -76,16 +76,16 @@ $('p').on('click', function(event) {
     return
   }
   });
-})
 
 function updateBody(key) {
   $('.changeContent').on('blur', function(event) {
   var body = $(this).val();
-  var title = $(this).parent().siblings('h2').text();
+  var title = $(this).parent().siblings('h2');
   var markUp = buildMarkup(key, title, body);
   localStorage.setItem(key, markUp);
   })
 }
+});
 
 function upVoteClicked(event) {
 	var $upvoteButton = $(event.target);
