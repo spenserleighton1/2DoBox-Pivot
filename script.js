@@ -2,7 +2,7 @@ var $titleInput = $('.idea-title');
 var $bodyInput = $('.body');
 var $saveButton = $('.save');
 //   var markUp = buildMarkup(toDoItem)
-$saveButton.on('click', buildMarkup);
+$saveButton.on('click', saveToDo);
 $('section').on('click', '.delete-button', deleteButtonClicked);
 $('section').on('click', '.upvote-button', upVoteClicked);
 $('section').on('click', '.downvote-button', downVoteClicked);
@@ -15,25 +15,46 @@ function toDo(title, body, id) {
   this.id = id;
 }
 
-function buildMarkup(toDoItem) {
-    event.preventDefault();
+function saveToDo(toDoItem) {
+     event.preventDefault();
      var toDoItem = new toDo($titleInput.val(), $bodyInput.val(), $.now())
-     $('section').prepend(
+     prependToDo(toDoItem)
+     toStorage(toDoItem)
+};
+
+function prependToDo(toDoItem){
+  $('section').prepend(
      `<article id=${toDoItem.id}>
       <button class = 'delete-button'></button>
-      <h2>${toDoItem.title}</h2>
-       <p>${toDoItem.body}</p>
+      <h2 contenteditable>${toDoItem.title}</h2>
+       <p contenteditable>${toDoItem.body}</p>
        <button class = 'upvote-button' aria-label='upvote'></button>
        <button class = 'downvote-button' aria-label = 'downvote' ></button>
        <h4>quality:<span class='quality' role='quality'>${toDoItem.quality}</span></h4>
        <hr>
        </article>`)
-};
+}
 
-$( document ).ready(function(event) {
-  for(var i = 0; i < localStorage.length; i++){
-  $('section').append(localStorage.getItem(localStorage.key(i)));
-  }  
+
+
+function toStorage(toDoItem){
+  var stringifyToDo = JSON.stringify(toDoItem);
+  localStorage.setItem(toDoItem, stringifyToDo)
+}
+
+function fromStorage(){
+  localStorage.forEach(function(toDoItem) {
+  var retrievedToDo = localStorage.getItem(toDoItem);
+  var parsedToDo = JSON.parse(retrievedToDo);
+  })
+
+  prependToDo(ParsedToDo);
+  debugger;
+}
+
+$(window).on('load', function() {
+fromStorage()
+  });
 
 $('h2').on('click',function(event) {
   var key1 = localStorage.getItem(localStorage.key($(this).parent().attr('id')));
@@ -78,8 +99,8 @@ function updateBody(key) {
   var markUp = buildMarkup(key, title, body);
   localStorage.setItem(key, markUp);
   })
-}
-});
+
+};
 
 function upVoteClicked(event) {
 	var $upvoteButton = $(event.target);
@@ -105,7 +126,7 @@ function downVoteClicked(event){
 
 function deleteButtonClicked (event, idGen) {
 	$(this).parent().remove();
-  localStorage.removeItem(localStorage.key(idGen));
+  localStorage.removeItem(localStorage.key(toDoItem.id));
 }
 
 function clearInputs() {
