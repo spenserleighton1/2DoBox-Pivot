@@ -39,7 +39,7 @@ function prependToDo(toDoItem){
 
 function toStorage(toDoItem){
   var stringifyToDo = JSON.stringify(toDoItem);
-  localStorage.setItem(toDoItem, stringifyToDo)
+  localStorage.setItem(toDoItem.id, stringifyToDo)
 }
 
 function fromStorage(){
@@ -124,9 +124,10 @@ function downVoteClicked(event){
  	}
 }
 
+//fixed//
 function deleteButtonClicked (event, idGen) {
 	$(this).parent().remove();
-  localStorage.removeItem(localStorage.key(toDoItem.id));
+  localStorage.removeItem($(this).closest('article').attr('id'));
 }
 
 function clearInputs() {
