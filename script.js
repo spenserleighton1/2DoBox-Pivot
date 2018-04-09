@@ -12,7 +12,8 @@ $('section').on('keyup', '.title', editTitle);
 function toDo(title, body, id) {
   this.title = title;
   this.body = body; 
-  this.quality = ' swill';
+  // this.quality = ['none','low','normal','high','critical'];
+  this.quality = 'normal';
   this.id = id;
 }
 
@@ -32,7 +33,7 @@ function prependToDo(toDoItem){
        <p contenteditable>${toDoItem.body}</p>
        <button class = 'upvote-button' aria-label='upvote'></button>
        <button class = 'downvote-button' aria-label = 'downvote' ></button>
-       <h4>quality:<span class='quality' role='quality'>${toDoItem.quality}</span></h4>
+       <h4>Importance: <span class='quality' role='quality'>${toDoItem.quality}</span></h4>
        <hr>
        </article>`)
 }
@@ -43,12 +44,13 @@ function toStorage(toDoItem){
 }
 
 function fromStorage(){
-
 for (var i = 0; i < localStorage.length; i++){
   var object = getObject(localStorage.key(i));
   prependToDo(object)
   }
 }
+
+
 
 function getObject(id) {
   var retrievedToDo = localStorage.getItem(id);
@@ -75,15 +77,6 @@ $('h2').on('click',function(event) {
 
 });
 
-function updateTitle(key) {
-  $('.changeTitle').on('blur',function(event) {
-  var title = $(this).val();
-  var body = $(this).parent().siblings('p');
-  var markUp = buildMarkup(key, title, body);
-  localStorage.setItem(key, markUp);
-  });
-}
-
 $('article').closest().keyup(function(event) {
   var id = this.id;
   console.log(this.id)
@@ -109,25 +102,31 @@ function updateBody(key) {
 };
 
 function upVoteClicked(event) {
-	var $upvoteButton = $(event.target);
-  var $currentArticle = $upvoteButton.parent();
-	var $quality = $currentArticle.children('h4').children('.quality');
- 	if ($quality.text() ==='swill') {
- 		$quality.text('plausible');
- 	} else if ($quality.text() === 'plausible') {
- 		$quality.text('genius');
- 	}
+  var importance = ['none','low','normal','high','critical'];
+  var $currentArticle = $(event.target).parent();
+  var id =$(this).parent().attr('id');
+  var retrievedToDo = getObject(id);
+  var $quality = $currentArticle.children('h4').children('.quality');
+  var i = importance.indexOf(retrievedToDo.quality);
+  if (i < 4){
+  retrievedToDo.quality = importance[i+1];
+  $quality.text(importance[i+1]);
+  toStorage(retrievedToDo);}
  }
 
+//fixed//
 function downVoteClicked(event){
-	var $downvoteButton = $(event.target);
+  var importance = ['none','low','normal','high','critical'];
+  var $downvoteButton = $(event.target);
   var $currentArticle = $downvoteButton.parent();
+  var id =$(this).parent().attr('id');
+  var retrievedToDo = getObject(id);
   var $quality = $currentArticle.children('h4').children('.quality');
- 	if ($quality.text() === 'genius') {
- 		$quality.text('plausible');
- 	} else if ($quality.text() === 'plausible') {
- 		$quality.text('swill');
- 	}
+  var i = importance.indexOf(retrievedToDo.quality);
+  if (i > 0){
+  retrievedToDo.quality = importance[i-1];
+  $quality.text(importance[i-1]);
+  toStorage(retrievedToDo);}
 }
 
 //fixed//
