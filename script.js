@@ -8,14 +8,22 @@ $('section').on('click', '.upvote-button', upVoteClicked);
 $('section').on('click', '.downvote-button', downVoteClicked);
 $('section').on('keyup', '.title', editTitle);
 $('section').on('keyup', '.body-content', editBody);
+$('.search').on('keyup', filterToDo);
 
 function toDo(title, body, id) {
   this.title = title;
   this.body = body; 
-  // this.quality = ['none','low','normal','high','critical'];
   this.quality = 'normal';
   this.id = id;
 }
+
+function filterToDo(){
+var searchInput = $('.search').val().toLowerCase();
+$('article').filter(function (){
+  $(this).toggle($(this).text().indexOf(searchInput) > -1);
+  })
+}
+
 function saveToDo(toDoItem) {
      event.preventDefault();
      var toDoItem = new toDo($titleInput.val(), $bodyInput.val(), $.now());
@@ -52,35 +60,9 @@ function getObject(id) {
   return toDoItem;
 }
 $(window).on('load', function() {
-fromStorage()
-  });
-$('h2').on('click',function(event) {
-  var key1 = localStorage.getItem(localStorage.key($(this).parent().attr('id')));
-  console.log(key1);
-  var newText = $(this).text();
-  var addInput = `<input type="text" value=${newText} class="changeTitle">`;
-  if ($(this).children().length === 0) {
-    $(this).text('');
-    $(this).append(addInput);
-    $(this).children().focus();
-    var key = $(this).parent().attr('id');
-    updateTitle(key);
-  }
+fromStorage();
 });
 
-$('article').closest().keyup(function(event) {
-  var id = this.id;
-  console.log(this.id)
-  var newText = $(this).text();
-  var addInput = `<input type="text" value=${newText} class="changeContent">`;
-   if ($(this).children().length === 0) {
-    $(this).text('');
-    $(this).append(addInput);
-    $(this).children().focus();
-    var key = $(this).parent().attr('id');
-    updateBody(key);
-  }
-  });
 function updateBody(key) {
   $('.changeContent').on('blur', function(event) {
   var body = $(this).val();
@@ -89,8 +71,8 @@ function updateBody(key) {
   localStorage.setItem(key, markUp);
   })
 };
-function upVoteClicked(event) {
 
+function upVoteClicked(event) {
   var importance = ['none','low','normal','high','critical'];
   var $currentArticle = $(event.target).parent();
   var id =$(this).parent().attr('id');
@@ -101,7 +83,7 @@ function upVoteClicked(event) {
   retrievedToDo.quality = importance[i+1];
   $quality.text(importance[i+1]);
   toStorage(retrievedToDo);}
- }
+ };
 
 //fixed//
 function downVoteClicked(event){
@@ -117,11 +99,13 @@ function downVoteClicked(event){
   $quality.text(importance[i-1]);
   toStorage(retrievedToDo);}
 }
+
 //fixed//
 function deleteButtonClicked (event) {
     $(this).parent().remove();
   localStorage.removeItem($(this).closest('article').attr('id'));
 }
+
 //fixed//
 function editTitle (event) {
   var title = this.innerText;
