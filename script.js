@@ -9,12 +9,22 @@ $('section').on('click', '.downvote-button', downVoteClicked);
 $('section').on('keyup', '.title', editTitle);
 $('section').on('keyup', '.body-content', editBody);
 $('.search').on('keyup', filterToDo);
+$('section').on('click', '.completed', markCompleted)
+
+
+
+
+ function changeColor(id){
+  $(id).parent().toggleClass('task-completed')
+  debugger;
+ }
 
 function toDo(title, body, id) {
   this.title = title;
   this.body = body; 
   this.quality = 'normal';
   this.id = id;
+  this.completed = false;
 }
 
 function filterToDo(){
@@ -38,15 +48,18 @@ function prependToDo(toDoItem){
       <h2 class="title" contenteditable>${toDoItem.title}</h2>
        <p class="body-content" contenteditable>${toDoItem.body}</p>
        <button class = 'upvote-button' aria-label='upvote'></button>
-       <button class = 'downvote-button' aria-label = 'downvote' ></button>
+       <button class = 'downvote-button' aria-label = 'downvote'></button>
        <h4>Importance: <span class='quality' role='quality'>${toDoItem.quality}</span></h4>
+       <button class = 'completed' aria-label='completed'>completed</button>
        <hr>
        </article>`)
 }
 function toStorage(toDoItem){
   var stringifyToDo = JSON.stringify(toDoItem);
   localStorage.setItem(toDoItem.id, stringifyToDo)
+  console.log(toDoItem.completed)
 }
+
 function fromStorage(){
 for (var i = 0; i < localStorage.length; i++){
   var object = getObject(localStorage.key(i));
@@ -71,6 +84,26 @@ function updateBody(key) {
   localStorage.setItem(key, markUp);
   })
 };
+
+
+
+
+
+
+
+function markCompleted() {
+  var id =$(this).parent().attr('id');
+  var retrievedToDo = getObject(id);
+  // changeColor(id)
+
+
+  console.log(id)
+  console.log(retrievedToDo)
+};
+
+
+
+
 
 function upVoteClicked(event) {
   var importance = ['none','low','normal','high','critical'];
