@@ -1,23 +1,28 @@
-var $titleInput = $('.idea-title');
-var $bodyInput = $('.body');
-var $saveButton = $('.save');
-//   var markUp = buildMarkup(toDoItem)
-$saveButton.on('click', saveToDo);
-$('section').on('click', '.delete-button', deleteButtonClicked);
-$('section').on('click', '.upvote-button', upVoteClicked);
-$('section').on('click', '.downvote-button', downVoteClicked);
+$('.show-completed').on('click', showCompleted)
+$('.save').on('click', saveToDo)
+$('section').on('click', '.delete-btn', deleteButtonClicked);
+$('section').on('click', '.upvote-btn', upVoteClicked);
+$('section').on('click', '.downvote-btn', downVoteClicked);
 $('section').on('keyup', '.title', editTitle);
 $('section').on('keyup', '.body-content', editBody);
 $('.search').on('keyup', filterToDo);
-$('section').on('click', '.completed', markCompleted)
+$('section').on('click', '.completed-btn', markCompleted)
 
 
 
 
- function changeColor(id){
-  $(id).parent().toggleClass('task-completed')
-  debugger;
- }
+function showCompleted(e){
+  e.preventDefault();
+    for (var i = 0; i < localStorage.length; i++){
+    var object = getObject(localStorage.key(i));
+    if (object.completed === true){
+      prependToDo(object, 'task-completed')
+    }
+    $('.show-completed').attr('disabled', true)
+  }
+
+
+}
 
 function toDo(title, body, id) {
   this.title = title;
@@ -28,29 +33,31 @@ function toDo(title, body, id) {
 }
 
 function filterToDo(){
-var searchInput = $('.search').val().toLowerCase();
-$('article').filter(function (){
-  $(this).toggle($(this).text().indexOf(searchInput) > -1);
+  var searchInput = $('.search').val().toLowerCase();
+  $('article').filter(function (){
+  $(this).toggle($(this).text().indexOf(searchInput)>-1);
   })
 }
 
 function saveToDo(toDoItem) {
-     event.preventDefault();
-     var toDoItem = new toDo($titleInput.val(), $bodyInput.val(), $.now());
-     prependToDo(toDoItem);
-     toStorage(toDoItem);
-     clearInputs();
+   event.preventDefault();
+   var $bodyInput = $('.body');
+   var $titleInput = $('.idea-title');
+   var toDoItem = new toDo($titleInput.val(), $bodyInput.val(), $.now());
+   prependToDo(toDoItem);
+   toStorage(toDoItem);
+   clearInputs();
 };
-function prependToDo(toDoItem){
+function prependToDo(toDoItem, className){
   $('section').prepend(
-     `<article id=${toDoItem.id}>
-      <button class = 'delete-button'></button>
+     `<article class=${className} id=${toDoItem.id}>
+      <button class = 'delete-btn'></button>
       <h2 class="title" contenteditable>${toDoItem.title}</h2>
        <p class="body-content" contenteditable>${toDoItem.body}</p>
-       <button class = 'upvote-button' aria-label='upvote'></button>
-       <button class = 'downvote-button' aria-label = 'downvote'></button>
+       <button class = 'upvote-btn' aria-label='upvote'></button>
+       <button class = 'downvote-btn' aria-label = 'downvote'></button>
        <h4>Importance: <span class='quality' role='quality'>${toDoItem.quality}</span></h4>
-       <button class = 'completed' aria-label='completed'>completed</button>
+       <button class = 'completed-btn' aria-label='completed'>completed</button>
        <hr>
        </article>`)
 }
@@ -61,9 +68,11 @@ function toStorage(toDoItem){
 }
 
 function fromStorage(){
-for (var i = 0; i < localStorage.length; i++){
-  var object = getObject(localStorage.key(i));
-  prependToDo(object)
+  for (var i = 0; i < localStorage.length; i++){
+    var object = getObject(localStorage.key(i));
+    if (object.completed === false){
+     prependToDo(object)
+    }
   }
 }
 
@@ -72,38 +81,20 @@ function getObject(id) {
   var toDoItem = JSON.parse(retrievedToDo);
   return toDoItem;
 }
+
 $(window).on('load', function() {
 fromStorage();
 });
 
-function updateBody(key) {
-  $('.changeContent').on('blur', function(event) {
-  var body = $(this).val();
-  var title = $(this).parent().siblings('h2');
-  var markUp = buildMarkup(key, title, body);
-  localStorage.setItem(key, markUp);
-  })
-};
-
-
-
-
-
-
-
 function markCompleted() {
   var id =$(this).parent().attr('id');
   var retrievedToDo = getObject(id);
-  // changeColor(id)
-
-
-  console.log(id)
-  console.log(retrievedToDo)
+  retrievedToDo.completed = true;
+  if (retrievedToDo.completed = true){
+  $(event.target).parent().toggleClass('task-completed')
+  toStorage(retrievedToDo);
+  }
 };
-
-
-
-
 
 function upVoteClicked(event) {
   var importance = ['none','low','normal','high','critical'];
@@ -158,6 +149,8 @@ function editBody (event) {
 }
 function clearInputs() {
   event.preventDefault();
+  var $titleInput = $('.idea-title');
+  var $bodyInput = $('.body');
   $titleInput.val('');
   $bodyInput.val('');
 }

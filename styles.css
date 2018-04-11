@@ -83,44 +83,44 @@ hr {
   margin: 2% auto;
 }
 
-.delete-button {
+.delete-btn {
 	background: url('images/delete.svg');
   float: right;
 	height: 1.5rem;
 	width: 1.5rem;
 }
 
-.delete-button:hover {
+.delete-btn:hover {
   background-image: url('images/delete-hover.svg');
 }
 
-.upvote-button {
+.upvote-btn {
   background-image: url('images/upvote.svg');
   height: 1.5rem;
   margin-right: 1rem;
   width: 1.5rem;
 }
 
-.upvote-button:hover {
+.upvote-btn:hover {
 	background-image: url('images/upvote-hover.svg');
 }
 
-.downvote-button {
+.downvote-btn {
   background-image: url('images/downvote.svg');
   height: 1.5rem;
   margin-right: 1rem;
   width: 1.5rem;
 }
 
-.downvote-button:hover {
+.downvote-btn:hover {
   background-image: url('images/downvote-hover.svg');
 }
 
 .task-completed {
-  color: red;
+  opacity: 0.3;
 }
 
-.completed {
+.completed-btn {
   margin-left: 1rem;
   background-color: lightgray;
 }
