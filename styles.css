@@ -126,8 +126,8 @@ hr {
 }
 
 .completed-btn {
-  color: white;
   background-color: #00A79D;
+  color: white;
   float: right;
   height: 1.5rem;
   margin-right: 1rem;
@@ -149,6 +149,11 @@ hr {
   .todo-title,
   .body,
   .filter {
+  width: 75%;
+}
+
+section {
+
   width: 75%;
 }
 }
