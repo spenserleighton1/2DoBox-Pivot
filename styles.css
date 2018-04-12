@@ -24,8 +24,8 @@ span {
 }
 
 button {
-  outline: none;
   border: 0;
+  outline: none;
 }
 
 section {
@@ -53,9 +53,10 @@ hr {
   width: 100%;
 }
 
-.idea-title,
+.todo-title,
 .body,
-.search {
+.filter {
+  border: none;
   color: #939598;
   font-weight: 700;
   height: 21px;
@@ -67,20 +68,24 @@ hr {
   margin-top: 1%;
 }
 
-.save {
+.save-btn {
   background-color: #00A79D;
   color: white;
-  margin: 2% 0 3% 0;
+  margin: 2% 0 2% 0;
   padding: 1% 0;
-  width: 56%;
+  width: 55%;
 }
 
-.save:hover {
+.save-btn:hover,
+.show-completed:hover {
   background-color: #045E55;
 }
 
-.search {
-  margin: 2% auto;
+.filter {
+  display: block;
+  margin: 1% auto;
+  margin-top: 0;
+  /*width: 25%;*/
 }
 
 .delete-btn {
@@ -121,12 +126,29 @@ hr {
 }
 
 .completed-btn {
-  margin-left: 1rem;
-  background-color: lightgray;
+  color: white;
+  background-color: #00A79D;
+  float: right;
+  height: 1.5rem;
+  margin-right: 1rem;
+}
+
+.show-completed {
+  background-color: #00A79D;
+  color: white;
+  margin: 1% 0 4% 0;
+  padding: .5% 0;
+  width: 35%;
 }
 
 @media only screen and (max-width:600px) {
   .body{
     padding-bottom: 8%;
   }
+  .save-btn,
+  .todo-title,
+  .body,
+  .filter {
+  width: 75%;
+}
 }

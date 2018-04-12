@@ -1,15 +1,15 @@
 $('.show-completed').on('click', showCompleted)
-$('.save').on('click', saveToDo)
-$('section').on('click', '.delete-btn', deleteButtonClicked);
+$('.save-btn').on('click', saveToDo)
+$('section').on('click', '.delete-btn', deleteClicked);
 $('section').on('click', '.upvote-btn', upVoteClicked);
 $('section').on('click', '.downvote-btn', downVoteClicked);
 $('section').on('keyup', '.title', editTitle);
 $('section').on('keyup', '.body-content', editBody);
-$('.search').on('keyup', filterToDo);
+$('.filter').on('keyup', filterToDo);
 $('section').on('click', '.completed-btn', markCompleted)
 
 $(window).on('load', function() {
-fromStorage();
+  fromStorage();
 });
 
 function toDo(title, body, id) {
@@ -25,41 +25,23 @@ function saveToDo(toDoItem) {
    var $bodyInput = $('.body');
    var $titleInput = $('.idea-title');
    var toDoItem = new toDo($titleInput.val(), $bodyInput.val(), $.now());
-   prependToDo(toDoItem);
+   createToDo(toDoItem);
    toStorage(toDoItem);
    clearInputs();
 };
 
-function prependToDo(toDoItem, className){
+function createToDo(toDoItem, className){
   $('section').prepend(
-     `<article class=${className} id=${toDoItem.id}>
-      <button class = 'delete-btn'></button>
-      <h2 class="title" contenteditable>${toDoItem.title}</h2>
-       <p class="body-content" contenteditable>${toDoItem.body}</p>
-       <button class = 'upvote-btn' aria-label='upvote'></button>
-       <button class = 'downvote-btn' aria-label = 'downvote'></button>
-       <h4>Importance: <span class='quality' role='quality'>${toDoItem.quality}</span></h4>
-       <button class = 'completed-btn' aria-label='completed'>completed</button>
-       <hr>
-       </article>`)
-};
-
-function showCompleted(e){
-  e.preventDefault();
-    for (var i = 0; i < localStorage.length; i++){
-    var object = getObject(localStorage.key(i));
-    if (object.completed === true){
-      prependToDo(object, 'task-completed');
-    };
-    $('.show-completed').attr('disabled', true);
-  };
-};
-
-function filterToDo(){
-  var searchInput = $('.search').val().toLowerCase();
-  $('article').filter(function (){
-  $(this).toggle($(this).text().indexOf(searchInput)>-1);
-  });
+    `<article class=${className} id=${toDoItem.id}>
+     <button class = 'delete-btn'></button>
+     <button class ='completed-btn' aria-label='completed'>completed</button>
+     <h2 class='title' contenteditable>${toDoItem.title}</h2>
+     <p class="body-content" contenteditable>${toDoItem.body}</p>
+     <button class ='upvote-btn' aria-label='upvote'></button>
+     <button class ='downvote-btn' aria-label='downvote'></button>
+     <h4>Importance: <span class='quality' role='quality'>${toDoItem.quality}</span></h4>
+     <hr>
+     </article>`)
 };
 
 function toStorage(toDoItem){
@@ -71,7 +53,7 @@ function fromStorage(){
   for (var i = 0; i < localStorage.length; i++){
     var object = getObject(localStorage.key(i));
     if (object.completed === false){
-     prependToDo(object);
+     createToDo(object);
     };
   };
 };
@@ -90,6 +72,24 @@ function markCompleted() {
   $(event.target).parent().toggleClass('task-completed');
   toStorage(retrievedToDo);
   };
+};
+
+function showCompleted(e){
+  e.preventDefault();
+    for (var i = 0; i < localStorage.length; i++){
+    var object = getObject(localStorage.key(i));
+    if (object.completed === true){
+      createToDo(object, 'task-completed');
+    };
+    $('.show-completed').attr('disabled', true);
+  };
+};
+
+function filterToDo(){
+  var searchInput = $('.filter').val().toLowerCase();
+  $('article').filter(function (){
+  $(this).toggle($(this).text().indexOf(searchInput)>-1);
+  });
 };
 
 function upVoteClicked(event) {
@@ -121,7 +121,7 @@ function downVoteClicked(event){
   };
 };
 
-function deleteButtonClicked (event) {
+function deleteClicked (event) {
   $(this).parent().remove();
   localStorage.removeItem($(this).closest('article').attr('id'));
 };
