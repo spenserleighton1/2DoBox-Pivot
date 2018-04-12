@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <title>ideabox</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="styles.css">
     <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:700" rel="stylesheet">
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -12,13 +13,13 @@
       <form>
         <header>
           <h1>2Do<span>Box</span></h1>
-      <input type="text" name="search" class="search" placeholder="Filter" aria-label="filter">
-          <input type="text" placeholder="Title" class="idea-title" aria-label="title">
+          <input type="text" placeholder="Title" class="todo-title" aria-label="to do title">
           <div>
             <input type="text" placeholder="Task" class="body" aria-label="task">
           </div>
-          <button name="save" class="save" aria-label="save">Save</button>
-          <button name="show-completed" class="show-completed">Show Completed</button>
+          <button name="save" class="save-btn" aria-label="save">Save</button>
+          <input type="text" name="filter" class="filter" placeholder="Filter" aria-label="filter">
+          <button name="show-completed" class="show-completed" aria-label="show completed to do list">Show Completed</button>
         </header>
     </form>
     <section>
