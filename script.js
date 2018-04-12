@@ -1,48 +1,78 @@
-var $titleInput = $('.idea-title');
-var $bodyInput = $('.body');
-var $saveButton = $('.save');
-//   var markUp = buildMarkup(toDoItem)
-$saveButton.on('click', saveToDo);
-$('section').on('click', '.delete-button', deleteButtonClicked);
-$('section').on('click', '.upvote-button', upVoteClicked);
-$('section').on('click', '.downvote-button', downVoteClicked);
+$('.show-completed').on('click', showCompleted)
+$('.save').on('click', saveToDo)
+$('section').on('click', '.delete-btn', deleteButtonClicked);
+$('section').on('click', '.upvote-btn', upVoteClicked);
+$('section').on('click', '.downvote-btn', downVoteClicked);
 $('section').on('keyup', '.title', editTitle);
 $('section').on('keyup', '.body-content', editBody);
+$('.search').on('keyup', filterToDo);
+$('section').on('click', '.completed-btn', markCompleted)
+
+
+
+
+function showCompleted(e){
+  e.preventDefault();
+    for (var i = 0; i < localStorage.length; i++){
+    var object = getObject(localStorage.key(i));
+    if (object.completed === true){
+      prependToDo(object, 'task-completed')
+    }
+    $('.show-completed').attr('disabled', true)
+  }
+
+
+}
 
 function toDo(title, body, id) {
   this.title = title;
   this.body = body; 
-  // this.quality = ['none','low','normal','high','critical'];
   this.quality = 'normal';
   this.id = id;
+  this.completed = false;
 }
+
+function filterToDo(){
+  var searchInput = $('.search').val().toLowerCase();
+  $('article').filter(function (){
+  $(this).toggle($(this).text().indexOf(searchInput)>-1);
+  })
+}
+
 function saveToDo(toDoItem) {
-     event.preventDefault();
-     var toDoItem = new toDo($titleInput.val(), $bodyInput.val(), $.now());
-     prependToDo(toDoItem);
-     toStorage(toDoItem);
-     clearInputs();
+   event.preventDefault();
+   var $bodyInput = $('.body');
+   var $titleInput = $('.idea-title');
+   var toDoItem = new toDo($titleInput.val(), $bodyInput.val(), $.now());
+   prependToDo(toDoItem);
+   toStorage(toDoItem);
+   clearInputs();
 };
-function prependToDo(toDoItem){
+function prependToDo(toDoItem, className){
   $('section').prepend(
-     `<article id=${toDoItem.id}>
-      <button class = 'delete-button'></button>
+     `<article class=${className} id=${toDoItem.id}>
+      <button class = 'delete-btn'></button>
       <h2 class="title" contenteditable>${toDoItem.title}</h2>
        <p class="body-content" contenteditable>${toDoItem.body}</p>
-       <button class = 'upvote-button' aria-label='upvote'></button>
-       <button class = 'downvote-button' aria-label = 'downvote' ></button>
+       <button class = 'upvote-btn' aria-label='upvote'></button>
+       <button class = 'downvote-btn' aria-label = 'downvote'></button>
        <h4>Importance: <span class='quality' role='quality'>${toDoItem.quality}</span></h4>
+       <button class = 'completed-btn' aria-label='completed'>completed</button>
        <hr>
        </article>`)
 }
 function toStorage(toDoItem){
   var stringifyToDo = JSON.stringify(toDoItem);
   localStorage.setItem(toDoItem.id, stringifyToDo)
+  console.log(toDoItem.completed)
 }
+
 function fromStorage(){
-for (var i = 0; i < localStorage.length; i++){
-  var object = getObject(localStorage.key(i));
-  prependToDo(object)
+  for (var i = 0; i < localStorage.length; i++){
+    var object = getObject(localStorage.key(i));
+    if (object.completed === false){
+     prependToDo(object)
+    }
   }
 }
 
@@ -51,46 +81,22 @@ function getObject(id) {
   var toDoItem = JSON.parse(retrievedToDo);
   return toDoItem;
 }
+
 $(window).on('load', function() {
-fromStorage()
-  });
-$('h2').on('click',function(event) {
-  var key1 = localStorage.getItem(localStorage.key($(this).parent().attr('id')));
-  console.log(key1);
-  var newText = $(this).text();
-  var addInput = `<input type="text" value=${newText} class="changeTitle">`;
-  if ($(this).children().length === 0) {
-    $(this).text('');
-    $(this).append(addInput);
-    $(this).children().focus();
-    var key = $(this).parent().attr('id');
-    updateTitle(key);
-  }
+fromStorage();
 });
 
-$('article').closest().keyup(function(event) {
-  var id = this.id;
-  console.log(this.id)
-  var newText = $(this).text();
-  var addInput = `<input type="text" value=${newText} class="changeContent">`;
-   if ($(this).children().length === 0) {
-    $(this).text('');
-    $(this).append(addInput);
-    $(this).children().focus();
-    var key = $(this).parent().attr('id');
-    updateBody(key);
+function markCompleted() {
+  var id =$(this).parent().attr('id');
+  var retrievedToDo = getObject(id);
+  retrievedToDo.completed = true;
+  if (retrievedToDo.completed = true){
+  $(event.target).parent().toggleClass('task-completed')
+  toStorage(retrievedToDo);
   }
-  });
-function updateBody(key) {
-  $('.changeContent').on('blur', function(event) {
-  var body = $(this).val();
-  var title = $(this).parent().siblings('h2');
-  var markUp = buildMarkup(key, title, body);
-  localStorage.setItem(key, markUp);
-  })
 };
-function upVoteClicked(event) {
 
+function upVoteClicked(event) {
   var importance = ['none','low','normal','high','critical'];
   var $currentArticle = $(event.target).parent();
   var id =$(this).parent().attr('id');
@@ -101,7 +107,7 @@ function upVoteClicked(event) {
   retrievedToDo.quality = importance[i+1];
   $quality.text(importance[i+1]);
   toStorage(retrievedToDo);}
- }
+ };
 
 //fixed//
 function downVoteClicked(event){
@@ -117,11 +123,13 @@ function downVoteClicked(event){
   $quality.text(importance[i-1]);
   toStorage(retrievedToDo);}
 }
+
 //fixed//
 function deleteButtonClicked (event) {
     $(this).parent().remove();
   localStorage.removeItem($(this).closest('article').attr('id'));
 }
+
 //fixed//
 function editTitle (event) {
   var title = this.innerText;
@@ -141,6 +149,8 @@ function editBody (event) {
 }
 function clearInputs() {
   event.preventDefault();
+  var $titleInput = $('.idea-title');
+  var $bodyInput = $('.body');
   $titleInput.val('');
   $bodyInput.val('');
 }
